@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name Your Store</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        body {
+            background-color: #121212;
+            color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .container {
+            background: rgba(30, 30, 30, 0.8);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: #8a2be2;
+        }
+        
+        p {
+            margin-bottom: 30px;
+            color: #aaa;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .btn {
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #8a2be2, #00bfff);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .theme-selector {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        
+        .theme-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin: 0 5px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .theme-btn.active {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Name Your Store</h1>
+        <p>What would you like to name your e-commerce store? This will be your brand identity.</p>
+        <input type="text" id="storeName" placeholder="e.g., Fashion Hub, Tech Palace, etc.">
+        <button class="btn" id="continueBtn">Continue</button>
+    </div>
+    
+    <div class="theme-selector">
+        <button class="theme-btn active" data-theme="dark">Dark</button>
+        <button class="theme-btn" data-theme="light">Light</button>
+    </div>
+
+    <script>
+        document.getElementById('continueBtn').addEventListener('click', function() {
+            const storeName = document.getElementById('storeName').value;
+            if (storeName.trim() === '') {
+                alert('Please enter a store name');
+                return;
+            }
+            localStorage.setItem('storeName', storeName);
+            localStorage.setItem('theme', 'dark');
+            window.location.href = 'admin-panel.html';
+        });
+        
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelector('.theme-btn.active').classList.remove('active');
+                this.classList.add('active');
+                localStorage.setItem('theme', this.dataset.theme);
+            });
+        });
+        
+        // Set theme on load
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.querySelector(`.theme-btn[data-theme="${savedTheme}"]`).classList.add('active');
+    </script>
+</body>
+</html>
